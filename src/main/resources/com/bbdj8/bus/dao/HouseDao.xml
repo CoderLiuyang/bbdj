@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bbdj8.bus.dao.HouseDao">
+
+	<select id="queryObject" resultType="com.bbdj8.bus.entity.HouseEntity">
+		select * from bbdj_house where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.bbdj8.bus.entity.HouseEntity">
+		select * from bbdj_house 
+		where 1 = 1
+		<if test="text!=null">
+			and text like concat('%', #{text}, '%')
+		</if>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from bbdj_house 
+		where 1=1 
+		<if test="text!=null">
+			and text like concat('%', #{text}, '%')
+		</if>
+	</select>
+	 
+	<insert id="save" parameterType="com.bbdj8.bus.entity.HouseEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into bbdj_house
+		(
+			`comm_id`, 
+			`comm_value`, 
+			`comm_key`, 
+			`house_no`, 
+			`unit_no`,
+			`text`
+		)
+		values
+		(
+			#{commId}, 
+			#{commValue}, 
+			#{commKey}, 
+			#{houseNo}, 
+			#{unitNo},
+			#{text}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bbdj8.bus.entity.HouseEntity">
+		update bbdj_house 
+		<set>
+			<if test="commId != null">`comm_id` = #{commId}, </if>
+			<if test="commValue != null">`comm_value` = #{commValue}, </if>
+			<if test="commKey != null">`comm_key` = #{commKey}, </if>
+			<if test="houseNo != null">`house_no` = #{houseNo}, </if>
+			<if test="text != null">`text` = #{text}, </if>
+			<if test="unitNo != null">`unit_no` = #{unitNo}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from bbdj_house where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from bbdj_house where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

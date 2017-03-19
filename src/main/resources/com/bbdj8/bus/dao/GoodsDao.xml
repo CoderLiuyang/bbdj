@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bbdj8.bus.dao.GoodsDao">
+
+	<select id="queryObject" resultType="com.bbdj8.bus.entity.GoodsEntity">
+		select * from bbdj_goods where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.bbdj8.bus.entity.GoodsEntity">
+		select * from bbdj_goods
+		where 1=1
+		<if test="expressId!=null and expressId!=''">
+			and express_Id =  #{expressId}
+		</if> 
+		<if test="courierId!=null and courierId!=''">
+			and courier_id = #{courierId}
+		</if> 
+		<if test="express!=null and express!=''">
+			and express =  #{express}
+		</if> 
+		<if test="courier!=null and courier!=''">
+			and courier_name = #{courier}
+		</if> 
+		<if test="status!=null and status!=''">
+			and status = #{status}
+		</if>
+		<if test="handoverNo!=null and handoverNo!=''">
+			and handover_no = #{handoverNo}
+		</if>
+		<if test="tel!=null and tel!=''">
+			and tel like concat('%', #{tel}, '%')
+		</if>
+		<if test="goodsNo!=null and goodsNo!=''">
+			and goods_no like concat('%', #{goodsNo}, '%')
+		</if>
+		<if test="userName!=null and userName!=''">
+			and user_name like concat('%', #{userName}, '%')
+		</if>
+		<if test="st!=null and st!=''">
+			and createtime &gt;=#{st}
+		</if>
+		<if test="et!=null and et!=''">
+			and createtime &lt;=#{et}
+		</if>
+		<choose>
+			<when test="sidx != null and sidx != '' and order != null and order !=''">
+				ORDER BY ${sidx}  ${order}
+			</when>
+			<otherwise>
+				ORDER BY createtime desc
+			</otherwise>
+		</choose>
+		<if test="sidx != null and order != null">
+			
+		</if>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from bbdj_goods 
+		where 1=1
+		<if test="expressId!=null and expressId!=''">
+			and express_Id =  #{expressId}
+		</if> 
+		<if test="courierId!=null and courierId!=''">
+			and courier_id = #{courierId}
+		</if> 
+		<if test="express!=null and express!=''">
+			and express =  #{express}
+		</if> 
+		<if test="courier!=null and courier!=''">
+			and courier_name = #{courier}
+		</if> 
+		<if test="status!=null and status!=''">
+			and status = #{status}
+		</if>
+		<if test="handoverNo!=null and handoverNo!=''">
+			and handover_no = #{handoverNo}
+		</if>
+		<if test="tel!=null and tel!=''">
+			and tel like concat('%', #{tel}, '%')
+		</if>
+		<if test="goodsNo!=null and goodsNo!=''">
+			and goods_no like concat('%', #{goodsNo}, '%')
+		</if>
+		<if test="userName!=null and userName!=''">
+			and user_name like concat('%', #{userName}, '%')
+		</if>
+		<if test="st!=null and st!=''">
+			and createtime &gt;=#{st}
+		</if>
+		<if test="et!=null and et!=''">
+			and createtime &lt;=#{et}
+		</if>
+	</select>
+	 
+	<insert id="save" parameterType="com.bbdj8.bus.entity.GoodsEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into bbdj_goods
+		(
+			`goods_no`, 
+			`handover_no`, 
+			`packages_id`, 
+			`packages`, 
+			`appuser_id`, 
+			`user_name`, 
+			`tel`, 
+			`status`, 
+			`shelves`, 
+			`express_id`,
+			`express`, 
+			`courier_id`, 
+			`courier_name`, 
+			`goods`, 
+			`weight`, 
+			`img`, 
+			`createtime`, 
+			`gettime`, 
+			`getname`, 
+			`spec`, 
+			`is_broken`,
+			`house_name`,
+			`house_id`,
+			`courier_tel`,
+			`operation_id`,
+			`operation_name`,
+			`update_id`,
+			`update_name`,
+			`update_date`,
+			`house_number`,
+			`receivenote`,
+			`getnote`
+		)
+		values
+		(
+			#{goodsNo}, 
+			#{handoverNo}, 
+			#{packagesId}, 
+			#{packages}, 
+			#{appuserId}, 
+			#{userName}, 
+			#{tel}, 
+			#{status}, 
+			#{shelves}, 
+			#{expressId}, 
+			#{express}, 
+			#{courierId}, 
+			#{courierName}, 
+			#{goods}, 
+			#{weight}, 
+			#{img}, 
+			#{createtime}, 
+			#{gettime}, 
+			#{getname}, 
+			#{spec}, 
+			#{isBroken},
+			#{houseName},
+			#{houseId},
+			#{courierTel},
+			#{operationId},
+			#{operationName},
+			#{updateId},
+			#{updateName},
+			#{updateDate},
+			#{houseNumber},
+			#{receivenote},
+			#{getnote}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bbdj8.bus.entity.GoodsEntity">
+		update bbdj_goods 
+		<set>
+			<if test="goodsNo != null">`goods_no` = #{goodsNo}, </if>
+			<if test="handoverNo != null">`handover_no` = #{handoverNo}, </if>
+			<if test="packagesId != null">`packages_id` = #{packagesId}, </if>
+			<if test="packages != null">`packages` = #{packages}, </if>
+			<if test="appuserId != null">`appuser_id` = #{appuserId}, </if>
+			<if test="userName != null">`user_name` = #{userName}, </if>
+			<if test="tel != null">`tel` = #{tel}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="shelves != null">`shelves` = #{shelves}, </if>
+			<if test="expressId != null">`express_id` = #{expressId}, </if>
+			<if test="express != null">`express` = #{express}, </if>
+			<if test="courierId != null">`courier_id` = #{courierId}, </if>
+			<if test="courierName != null">`courier_name` = #{courierName}, </if>
+			<if test="goods != null">`goods` = #{goods}, </if>
+			<if test="weight != null">`weight` = #{weight}, </if>
+			<if test="img != null">`img` = #{img}, </if>
+			<if test="createtime != null">`createtime` = #{createtime}, </if>
+			<if test="gettime != null">`gettime` = #{gettime}, </if>
+			<if test="getname != null">`getname` = #{getname}, </if>
+			<if test="spec != null">`spec` = #{spec}, </if>
+			<if test="isBroken != null">`is_broken` = #{isBroken},</if>
+			<if test="houseName != null">`house_name` = #{houseName},</if>
+			<if test="houseId != null">`house_id` = #{houseId},</if>
+			<if test="courierTel != null">`courier_tel` = #{courierTel},</if>
+			<if test="operationId != null">`operation_id` = #{operationId},</if>
+			<if test="operationName != null">`operation_name` = #{operationName},</if>
+			<if test="updateId != null">`update_id` = #{updateId},</if>
+			<if test="updateName != null">`update_name` = #{updateName},</if>
+			<if test="updateDate != null">`update_date` = #{updateDate},</if>
+			<if test="houseNumber != null">`house_number` = #{houseNumber},</if>
+			<if test="receivenote != null">`receivenote` = #{receivenote},</if>
+			<if test="getnote != null">`getnote` = #{getnote}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete"> 
+		delete from bbdj_goods where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from bbdj_goods where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	<update id="updateBatch">
+		update bbdj_goods set status=#{status} where id in 
+		<foreach item="id" collection="ids" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
+	<select id="findByGoodsNo" resultType="com.bbdj8.bus.entity.GoodsEntity">
+		select * from bbdj_goods where goods_no = #{value}
+	</select>
+</mapper>

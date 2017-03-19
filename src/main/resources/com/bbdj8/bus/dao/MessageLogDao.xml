@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bbdj8.bus.dao.MessageLogDao">
+
+	<select id="queryObject" resultType="com.bbdj8.bus.entity.MessageLogEntity">
+		select * from bbdj_message_log where ID = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.bbdj8.bus.entity.MessageLogEntity">
+		select * from bbdj_message_log 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from bbdj_message_log 
+	</select>
+	 
+	<insert id="save" parameterType="com.bbdj8.bus.entity.MessageLogEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into bbdj_message_log
+		(
+			`type`, 
+			`status`, 
+			`message`
+		)
+		values
+		(
+			#{type}, 
+			#{status}, 
+			#{message}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bbdj8.bus.entity.MessageLogEntity">
+		update bbdj_message_log 
+		<set>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="message != null">`message` = #{message}</if>
+		</set>
+		where ID = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from bbdj_message_log where ID = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from bbdj_message_log where ID in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>宝贝到家取件单</title>
+#parse("sys/header.html")
+<style>
+* {
+	margin: 0px;
+	padding: 0px;
+	font-size: 10px;
+	text-align: center;
+}
+
+ .title {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+table {
+	border-right: 1px solid rgb(221,221,221);
+	border-bottom: 1px solid rgb(221,221,221);
+}
+
+table tbody tr td {
+	border-top: 1px solid rgb(221,221,221);
+	border-left: 1px solid rgb(221,221,221);
+}
+
+.table {
+	width: 100%;
+}
+
+.table .left {
+	text-align: right;
+	width: 37%
+}
+
+.table .right {
+	text-align: left;
+	width: 60%
+}
+</style>
+</head>
+<body>
+
+	<p rowspan="2" align="center" class="title">宝贝到家取件单</>
+	<table class="table" cellspacing="0" cellpadding="0">
+		<tbody>
+			<tr>
+				<td>收件人:</td>
+				<td id="user_name"></td>
+				<td>电话号码:</td>
+				<td id="tel"></td>
+			</tr>
+			<tr>
+				<td>快递公司:</td>
+				<td id="express_value"></td>
+				<td>快递电话:</td>
+				<td id="courier_tel"></td>
+			</tr>
+			<tr>
+				<td>我们的电话:</td>
+				<td>13512345678</td>
+				<td>重量:</td>
+				<td><span id="weight"></span>kg</td>
+			</tr>
+
+			<tr>
+				<td>地址:</td>
+				<td colspan="3">林荫大道30号楼1单元102室</td>
+			</tr>
+		</tbody>
+	</table>
+	<p style="margin: 0px 0px">
+		<img alt="" src="${rc.contextPath}/js/1484985392.png" width="70"
+			height="70">
+	</p>
+	<p style="margin: 0px 0px">
+		<span>关注公众号，宝贝到家</span>
+	</p>
+</body>
+</html>
+<script
+	src="${rc.contextPath}/js/bus/goods/print.js?_${date.systemTime}"></script>
+<script>
+	//window.print();
+</script>

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bbdj8.bus.dao.ExpressOrderDao">
+
+	<select id="queryObject" resultType="com.bbdj8.bus.entity.ExpressOrderEntity">
+		select * from bbdj_express_order where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.bbdj8.bus.entity.ExpressOrderEntity">
+		select * from bbdj_express_order 
+		order by createtime desc
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from bbdj_express_order 
+	</select>
+	 
+	<insert id="save" parameterType="com.bbdj8.bus.entity.ExpressOrderEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into bbdj_express_order
+		(
+			`send_tel`, 
+			`send_name`, 
+			`send_addr`, 
+			`receive_tel`, 
+			`receive_name`, 
+			`receive_addr`, 
+			`createtime`, 
+			`express_id`, 
+			`express_name`, 
+			`courier_id`, 
+			`courier_name`, 
+			`courier_tel`, 
+			`weight`, 
+			`sendtime`, 
+			`valuation`, 
+			`express_num`, 
+			`spec`, 
+			`goods`, 
+			`desc`, 
+			`status`, 
+			`money`, 
+			`house_name`, 
+			`house_id`, 
+			`house_number`, 
+			`pay_type`
+		)
+		values
+		(
+			#{sendTel}, 
+			#{sendName}, 
+			#{sendAddr}, 
+			#{receiveTel}, 
+			#{receiveName}, 
+			#{receiveAddr}, 
+			#{createtime}, 
+			#{expressId}, 
+			#{expressName}, 
+			#{courierId}, 
+			#{courierName}, 
+			#{courierTel}, 
+			#{weight}, 
+			#{sendtime}, 
+			#{valuation}, 
+			#{expressNum}, 
+			#{spec}, 
+			#{goods}, 
+			#{desc}, 
+			#{status}, 
+			#{money}, 
+			#{houseName}, 
+			#{houseId}, 
+			#{houseNumber}, 
+			#{payType}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bbdj8.bus.entity.ExpressOrderEntity">
+		update bbdj_express_order 
+		<set>
+			<if test="sendTel != null">`send_tel` = #{sendTel}, </if>
+			<if test="sendName != null">`send_name` = #{sendName}, </if>
+			<if test="sendAddr != null">`send_addr` = #{sendAddr}, </if>
+			<if test="receiveTel != null">`receive_tel` = #{receiveTel}, </if>
+			<if test="receiveName != null">`receive_name` = #{receiveName}, </if>
+			<if test="receiveAddr != null">`receive_addr` = #{receiveAddr}, </if>
+			<if test="createtime != null">`createtime` = #{createtime}, </if>
+			<if test="expressId != null">`express_id` = #{expressId}, </if>
+			<if test="expressName != null">`express_name` = #{expressName}, </if>
+			<if test="courierId != null">`courier_id` = #{courierId}, </if>
+			<if test="courierName != null">`courier_name` = #{courierName}, </if>
+			<if test="courierTel != null">`courier_tel` = #{courierTel}, </if>
+			<if test="weight != null">`weight` = #{weight}, </if>
+			<if test="sendtime != null">`sendtime` = #{sendtime}, </if>
+			<if test="valuation != null">`valuation` = #{valuation}, </if>
+			<if test="expressNum != null">`express_num` = #{expressNum}, </if>
+			<if test="spec != null">`spec` = #{spec}, </if>
+			<if test="goods != null">`goods` = #{goods}, </if>
+			<if test="desc != null">`desc` = #{desc}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="money != null">`money` = #{money}, </if>
+			<if test="houseName != null">`house_name` = #{houseName}, </if>
+			<if test="houseId != null">`house_id` = #{houseId}, </if>
+			<if test="houseNumber != null">`house_number` = #{houseNumber}, </if>
+			<if test="payType != null">`pay_type` = #{payType}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from bbdj_express_order where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from bbdj_express_order where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

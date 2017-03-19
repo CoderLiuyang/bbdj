@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bbdj8.bus.dao.IntegralLogDao">
+
+	<select id="queryObject" resultType="com.bbdj8.bus.entity.IntegralLogEntity">
+		select * from bbdj_integral_log where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.bbdj8.bus.entity.IntegralLogEntity">
+		select * from bbdj_integral_log 
+		order by createtime desc
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from bbdj_integral_log 
+	</select>
+	 
+	<insert id="save" parameterType="com.bbdj8.bus.entity.IntegralLogEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into bbdj_integral_log
+		(
+			`goods_id`, 
+			`goods_no`, 
+			`integral`, 
+			`createtime`, 
+			`note`, 
+			`user_id`, 
+			`tel`, 
+			`user_name`
+		)
+		values
+		(
+			#{goodsId}, 
+			#{goodsNo}, 
+			#{integral}, 
+			#{createtime}, 
+			#{note}, 
+			#{userId}, 
+			#{tel}, 
+			#{userName}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bbdj8.bus.entity.IntegralLogEntity">
+		update bbdj_integral_log 
+		<set>
+			<if test="goodsId != null">`goods_id` = #{goodsId}, </if>
+			<if test="goodsNo != null">`goods_no` = #{goodsNo}, </if>
+			<if test="integral != null">`integral` = #{integral}, </if>
+			<if test="createtime != null">`createtime` = #{createtime}, </if>
+			<if test="note != null">`note` = #{note}, </if>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="tel != null">`tel` = #{tel}, </if>
+			<if test="userName != null">`user_name` = #{userName}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from bbdj_integral_log where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from bbdj_integral_log where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

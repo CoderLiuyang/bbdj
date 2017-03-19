@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bbdj8.bus.dao.AppUserDao">
+
+	<select id="queryObject" resultType="com.bbdj8.bus.entity.AppUserEntity">
+		select * from bbdj_app_user where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.bbdj8.bus.entity.AppUserEntity">
+		select * from bbdj_app_user 
+		order by createtime desc
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from bbdj_app_user 
+	</select>
+	 
+	<insert id="save" parameterType="com.bbdj8.bus.entity.AppUserEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into bbdj_app_user
+		(
+			`tel`, 
+			`name`, 
+			`openid`, 
+			`house_name`, 
+			`house_num`, 
+			`integral`, 
+			`nickname`, 
+			`house_id`,
+			`createtime`,
+			`ename`
+		)
+		values
+		(
+			#{tel}, 
+			#{name}, 
+			#{openid}, 
+			#{houseName}, 
+			#{houseNum}, 
+			#{integral}, 
+			#{nickname}, 
+			#{houseId}, 
+			#{createtime}, 
+			#{ename}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bbdj8.bus.entity.AppUserEntity">
+		update bbdj_app_user 
+		<set>
+			<if test="tel != null">`tel` = #{tel}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="openid != null">`openid` = #{openid}, </if>
+			<if test="houseName != null">`house_name` = #{houseName}, </if>
+			<if test="houseNum != null">`house_num` = #{houseNum}, </if>
+			<if test="integral != null">`integral` = #{integral}, </if>
+			<if test="nickname != null">`nickname` = #{nickname}, </if>
+			<if test="houseId != null">`house_id` = #{houseId}, </if>
+			<if test="createtime != null">`createtime` = #{createtime}, </if>
+			<if test="ename != null">`ename` = #{ename}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from bbdj_app_user where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from bbdj_app_user where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	<select id="findByTel" resultType="com.bbdj8.bus.entity.AppUserEntity">
+		select * from bbdj_app_user where tel = #{tel}
+	</select>
+</mapper>

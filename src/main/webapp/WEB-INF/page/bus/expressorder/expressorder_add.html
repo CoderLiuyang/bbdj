@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>发件信息</title>
+#parse("sys/header.html")
+</head>
+<body>
+<div class="panel panel-default" id="rrapp" v-cloak>
+	<div class="panel-heading">{{title}}</div>
+	<form class="form-horizontal">
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">快递单号</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.expressNum" placeholder="快递单号" required="required"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">发件人电话</div>
+		   	<div class="col-sm-10">
+		   	  <input type="hidden" v-model="expressOrder.courierId" placeholder="快递员ID"/>
+		      <input type="hidden" v-model="expressOrder.courierName" placeholder="快递员名字"/>
+		      <input type="hidden" v-model="expressOrder.courierTel" placeholder="快递员电话"/>
+		      <input type="hidden" v-model="expressOrder.status" placeholder="状态 0-快递员未签收 1-快递员已签收 2-删除 3-提交成功未处理"/>
+		      <input type="hidden" v-model="expressOrder.sendtime" placeholder="快递员取件时间"/>
+		      <input type="text" @change="loadUser" class="form-control" v-model="expressOrder.sendTel" placeholder="发件人电话"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">发件人姓名</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.sendName" placeholder="发件人姓名" id="send_name" />
+		    </div>
+		</div>
+		<div class="form-group g-form-group" >
+		   	<div class="col-sm-2 control-label" style="float: left">发件住址</div>
+		   	<div class="col-sm-10 g-form-div-control" >
+		      	<input type="text" hidden="true" v-model="expressOrder.houseName" id="house_name" />
+		      	<select v-model="expressOrder.houseId" id="house_id" class="form-control" style="width:290px;display: inline;height:35px">
+		      		
+		      	</select>
+		      <input type="text" class="form-control" v-model="expressOrder.houseNumber"  style="width:75px;display: inline" id="house_number" placeholder="门牌号"/>
+		      <input type="hidden" class="form-control" v-model="expressOrder.sendAddr" placeholder="发件地址"/>
+		    </div>
+		</div>
+		<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">发件地址</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.sendAddr" placeholder="发件地址"/>
+		    </div>
+		</div> -->
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">收件人电话</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.receiveTel" placeholder="收件人电话"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">收件人姓名</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.receiveName" placeholder="收件人姓名"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">收件人地址</div>
+		   	<div class="col-sm-10">
+		      <select id="loc_province" style="width:120px;">
+			  </select>
+			  <select id="loc_city" style="width:120px; margin-left: 10px">
+			  </select>
+			  <select id="loc_town" style="width:120px;margin-left: 10px">
+			  </select>
+			  <input type="text" style="margin-top: 5px;" class="form-control" v-model="expressOrder.receiveAddr" placeholder="详细地址"/>
+		    </div>
+		</div>
+		<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">提交时间</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.createtime" placeholder="提交时间"/>
+		    </div>
+		</div> -->
+		<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">快递公司ID</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.expressId" placeholder="快递公司ID"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">快递公司名字</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.expressName" placeholder="快递公司名字"/>
+		    </div>
+		</div> -->
+		<div class="form-group">
+			<div class="col-sm-2 control-label">快递公司</div>
+			<div class="col-sm-10">
+				<!-- <input type="text" class="form-control" v-model="courier.expressId" placeholder="所属快递公司ID"/> -->
+				<select class="form-control" v-model="expressOrder.expressId" id="label_express_id"></select> 
+				<input type="text" hidden="true" v-model="expressOrder.expressName" placeholder="快递公司" />
+			</div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">支付类型</div>
+		   	<div class="col-sm-10">
+		      <!-- <input type="text" class="form-control" v-model="expressOrder.payType" placeholder="支付类型 0-现金 1-积分 2-积分+现金"/> -->
+		      <input type="radio" value='0' v-model="expressOrder.payType" id="payType0" name="payType" @change="changePayType('0')">现金
+		      <input type="radio" value='1' v-model="expressOrder.payType" id="payType1" name="payType" @change="changePayType('1')">积分
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">快递费</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" style="width:330px;float: left" v-model="expressOrder.money" id="money" placeholder="快递费"/>
+		      &nbsp;&nbsp;<span id="danwei" style="line-height: 35px;">元</span>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">保价金额</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.valuation" placeholder="保价金额"/>
+		    </div>
+		</div>
+		<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">快递员ID</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.courierId" placeholder="快递员ID"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">快递员名字</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.courierName" placeholder="快递员名字"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">快递员电话</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.courierTel" placeholder="快递员电话"/>
+		    </div>
+		</div> -->
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">重量</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.weight" placeholder="重量"/>
+		    </div>
+		</div>
+		<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">快递员取件时间</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.sendtime" placeholder="快递员取件时间"/>
+		    </div>
+		</div> -->
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">规格</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.spec" placeholder="规格"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">物品</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.goods" placeholder="物品"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">备注</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.desc" placeholder="备注"/>
+		    </div>
+		</div>
+		<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">状态 0-快递员未签收 1-快递员已签收 2-删除 3-提交成功未处理</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="expressOrder.status" placeholder="状态 0-快递员未签收 1-快递员已签收 2-删除 3-提交成功未处理"/>
+		    </div>
+		</div> -->
+		<div class="form-group">
+			<div class="col-sm-2 control-label"></div> 
+			<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+			&nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="back" value="返回"/>
+		</div>
+	</form>
+</div>
+
+<script src="${rc.contextPath}/js/bus/expressorder/expressorder_add.js?_${date.systemTime}"></script>
+<script src="${rc.contextPath}/js/bus/area.js?_${date.systemTime}"></script>
+<script src="${rc.contextPath}/js/bus/location.js?_${date.systemTime}"></script>
+</body>
+</html>

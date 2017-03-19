@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>快递货物信息</title>
+#parse("sys/header.html")
+</head>
+<body>
+<style>
+	.g-form-group{
+		float: left;
+		width:49%;
+		height:40px
+	}
+	.g-form-div-control{
+		float: left;
+		width:100%;
+	}
+	.g-form-div-control > input{
+		height:25px
+	}
+</style>
+<div class="panel panel-default" id="rrapp" v-cloak>
+	<!-- <div class="panel-heading">{{title}}</div> -->
+	<form class="form-horizontal" id="goods_form" style="width:100%">
+		<div class="form-group  g-form-group" style="height:40px">
+		   	<div class="col-sm-2 control-label">快递单号</div>
+		   	<div class="col-sm-10  g-form-div-control">
+		      <input type="text" id="goods_no" class="form-control" required="required" v-model="goods.goodsNo" placeholder="快递单号"/>
+		    </div>
+		</div>
+		<div class="form-group g-form-group" >
+		   	<div class="col-sm-2 control-label" style="float: left">收件人电话</div>
+		   	<div class="col-sm-10 g-form-div-control">
+		      <input  @keyup.enter="saveOrUpdate"  type="tel" class="form-control" required="required" @change="loadUser" v-model="goods.tel" id="tel" placeholder="收件人电话"/>
+		    </div>
+		</div>
+		<div class="form-group g-form-group">
+		   	<div class="col-sm-2 control-label" style="float: left">收件人姓名</div>
+		   	<div class="col-sm-10 g-form-div-control" >
+		      <input  @keyup.enter="saveOrUpdate"  type="text" class="form-control" v-model="goods.userName" id="user_name" placeholder="收件人姓名"/>
+		    </div>
+		</div>
+		<div class="form-group g-form-group" >
+		   	<div class="col-sm-2 control-label" style="float: left">住址</div>
+		   	<div class="col-sm-10 g-form-div-control" >
+		      	<!-- <input type="text" hidden="true" v-model="goods.houseName" id="house_name" />
+		      	<select v-model="goods.houseId" id="house_id" class="form-control" style="width:190px;display: inline;height:25px">
+		      		
+		      	</select> 
+		      <input type="text" class="form-control" v-model="goods.houseNumber"  style="width:67px;display: inline" id="house_number" placeholder="门牌号"/>-->
+		      <input  @keyup.enter="saveOrUpdate"  type="text" class="form-control" v-model="goods.houseNumber" id="house_number" placeholder="住址，填写楼号-单元号-门牌号，例：B30-1-106"/>
+		    </div>
+		</div>
+		<div class="form-group  g-form-group">
+		   	<div class="col-sm-2 control-label">波次号</div>
+		   	<div class="col-sm-10  g-form-div-control">
+		      <input type="text" class="form-control" style="width: 200px;float: left;margin-right: 5px;" id="handover_no" readonly="readonly" v-model="goods.handoverNo" placeholder="波次号"/>
+		      <input type="button" class="btn btn-info" id="change_han" @click="readOrWrite" value="修改" style="line-height: 10px"/>
+		    </div>
+		</div>
+		<div class="form-group g-form-group" >
+		   	<div class="col-sm-2 control-label" style="float: left">包装类型</div>
+		   	<div class="col-sm-10 g-form-div-control" >
+		   		<select id="packages_id" class="form-control" v-model="goods.packagesId">
+				</select>
+		        <input type="text" v-model="goods.packages" id="packages" hidden="true" />
+		    </div>
+		</div>
+		<div class="form-group g-form-group" >
+		   	<div class="col-sm-2 control-label" style="float: left">快递公司</div>
+		   	<div class="col-sm-10 g-form-div-control" >
+		      <input type="text" v-model="goods.expressId" hidden="true" id="express_id" />
+		      <input type="text" v-model="goods.express" class="form-control" readonly="readonly" id="express" />
+		    </div>
+		</div>
+		<div class="form-group g-form-group" >
+		   	<div class="col-sm-2 control-label" style="float: left">快递员姓名</div>
+		   	<div class="col-sm-10 g-form-div-control" >
+		   	  <input type="text" v-model="goods.courierId" id="courier_id" hidden="true" />
+		   	  <input type="text" v-model="goods.courierTel" id="courier_tel" hidden="true" />
+		      <input type="text" class="form-control" readonly="readonly" v-model="goods.courierName" id="courier_name" />
+		    </div>
+		</div>
+		<!-- 隐藏属性 -->
+		<input type="hidden" class="form-control" v-model="goods.createtime" id="createtime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+		<input type="hidden" class="form-control" v-model="goods.weight" id="weight" placeholder="重量"/>
+		<div class="form-group" style="    float: left;
+    width: 98%;">
+		   	<div class="col-sm-2 control-label" style="float: left">备注</div>
+		   	<div class="col-sm-10" >
+		      <textarea rows="4" cols="11" class="form-control" placeholder="备注" v-model="goods.receivenote"></textarea>
+		    </div>
+		</div>
+		
+		
+		<!-- <div class="form-group g-form-group" >
+		   	<div class="col-sm-2 control-label" style="float: left">重量</div>
+		   	<div class="col-sm-10 g-form-div-control" >
+		      <input  @keyup.enter="saveOrUpdate"  type="text" class="form-control" v-model="goods.weight" id="weight" placeholder="重量"/>
+		    </div>
+		</div>
+		<div class="form-group g-form-group" >
+		   	<div class="col-sm-2 control-label" style="float: left">是否破损</div>
+		   	<div class="col-sm-10 g-form-div-control" >
+		      <input type="radio" value='0' v-model="goods.isBroken" name="isBroken" >未破损
+		      <input type="radio" value='1' v-model="goods.isBroken" name="isBroken" >已破损
+		    </div>
+		</div>
+		<div class="form-group g-form-group" >
+		   	<div class="col-sm-2 control-label" style="float: left">收件时间</div>
+		   	<div class="col-sm-10 g-form-div-control" >
+		      <input class="form-control" v-model="goods.createtime" id="createtime" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+		    </div>
+		</div> -->
+		<!-- <div class="form-group g-form-group" >
+		   	<div class="col-sm-2 control-label" style="float: left">图片</div>
+		   	<div class="col-sm-10 g-form-div-control" >
+		      <input type="text" class="form-control" v-model="goods.img" id="img" placeholder="图片"/>
+		      <img alt="" src="" height="30">
+		    </div>
+		</div> -->
+		
+		<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">收件人ID</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="goods.appuserId" placeholder="收件人ID"/>
+		    </div>
+		</div> -->
+		<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">状态 5-删除 0-未签收 1-已通知未签收 2-签收 3-延迟签收 4-拒收退货</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="goods.status" placeholder="状态 0-未签收 1-已通知未签收 2-签收 3-延迟签收 4-拒收退货 5-删除"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">存放货架</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="goods.shelves" placeholder="存放货架"/>
+		    </div>
+		</div> -->
+		<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">快递员ID</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="goods.courierId" placeholder="快递员ID"/>
+		    </div>
+		</div> -->
+		<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">物品</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="goods.goods" placeholder="物品"/>
+		    </div>
+		</div> -->
+		
+		<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">取件时间</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="goods.gettime" placeholder="取件时间"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">取件人</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="goods.getname" placeholder="取件人"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">规格</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="goods.spec" placeholder="规格"/>
+		    </div>
+		</div> -->
+		<div class="form-group" style="clear: both;padding-top: 17px;text-align: center;">
+			<div class="col-sm-2 control-label"></div> 
+			<input type="button" class="btn btn-success"  @click="saveOrUpdate" value="确定"/>
+			&nbsp;&nbsp;
+			<input type="button" class="btn btn-primary" @click="print" value="打印"/>
+			&nbsp;&nbsp;
+			<input type="button" class="btn btn-info" @click="back" value="返回"/>
+			&nbsp;&nbsp;
+			<input type="button" class="btn btn-warning" @click="cleanForm" value="重置"/>
+		</div>
+	</form>
+</div>
+
+<script src="${rc.contextPath}/js/bus/goods/goods_add.js?_${date.systemTime}"></script>
+</body>
+</html>

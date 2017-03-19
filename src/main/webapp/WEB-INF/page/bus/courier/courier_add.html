@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>快递员信息表</title> #parse("sys/header.html")
+</head>
+<body>
+	<div class="panel panel-default" id="rrapp" v-cloak>
+		<div class="panel-heading">{{title}}</div>
+		<form class="form-horizontal">
+			<div class="form-group">
+				<div class="col-sm-2 control-label">所属快递公司</div>
+				<div class="col-sm-10">
+					<!-- <input type="text" class="form-control" v-model="courier.expressId" placeholder="所属快递公司ID"/> -->
+					<select class="form-control" v-model="courier.expressId" id="label_express_id"></select> 
+					<input type="text" hidden="true" v-model="courier.express" placeholder="所属快递公司" />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">快递员姓名</div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="courier.name"
+						placeholder="快递员姓名" />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">快递员英文名</div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="courier.ename"
+						placeholder="快递员英文名" />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">联系电话</div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="courier.tel"
+						placeholder="联系电话" />
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-2 control-label">身份证号码</div>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" v-model="courier.idcard"
+						placeholder="身份证号码" />
+				</div>
+			</div>
+
+			<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">所属快递公司</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="courier.express" placeholder="所属快递公司"/>
+		    </div>
+		</div> -->
+			<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">状态 0-正常 1-删除</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="courier.status" placeholder="状态 0-正常 1-删除"/>
+		    </div>
+		</div> -->
+			<div class="form-group">
+				<div class="col-sm-2 control-label"></div>
+				<input type="button" class="btn btn-primary" @click="saveOrUpdate"
+					value="确定" /> &nbsp;&nbsp;<input type="button"
+					class="btn btn-warning" @click="back" value="返回" />
+			</div>
+		</form>
+	</div>
+
+	<script
+		src="${rc.contextPath}/js/bus/courier/courier_add.js?_${date.systemTime}"></script>
+</body>
+</html>

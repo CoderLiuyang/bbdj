@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>快递货物信息</title>
+#parse("sys/header.html")
+</head>
+<body>
+<div class="panel panel-default" id="rrapp" v-cloak>
+	<div class="panel-heading">{{title}}</div>
+	<form class="form-horizontal">
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">波次号</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" readonly="readonly" v-model="goods.handoverNo" placeholder="波次号"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">快递单号</div>
+		   	<div class="col-sm-10">
+		      <input type="text" hidden="true" v-model="goods.id" />
+		      <input type="text" class="form-control" readonly="readonly" v-model="goods.goodsNo" placeholder="快递单号"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">快递员</div>
+		   	<div class="col-sm-10">
+		   	  <input type="text" v-model="goods.courierId" id="courier_id" hidden="true" />
+		      <input type="text" class="form-control" v-model="goods.courierName"  readonly="readonly" placeholder="快递员姓名"/>
+		     <!--  <select type="text" id="label_courier"  class="form-control" >
+			  </select> -->
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">快递公司</div>
+		   	<div class="col-sm-10">
+		   	  <input type="text" v-model="goods.expressId" id="express_id" hidden="true" />
+		      <input type="true" v-model="goods.express" hidden="true" readonly="readonly" placeholder="快递公司"/>
+		      <select id="label_express" class="form-control"  placeholder="快递公司">
+			  </select>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">包装类型</div>
+		   	<div class="col-sm-10">
+		   		<select id="packages_id" class="form-control" v-model="goods.packagesId">
+				</select>
+				<input type="text" v-model="goods.packages" id="packages" hidden="true" />
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">收件人姓名</div>
+		   	<div class="col-sm-10">
+		   	  <input type="text" v-model="goods.appuserId" placeholder="收件人ID" hidden="true" />
+		      <input type="text" class="form-control" v-model="goods.userName" placeholder="收件人姓名"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">收件人电话</div>
+		   	<div class="col-sm-10">
+		      <input type="tel" class="form-control" v-model="goods.tel" placeholder="收件人电话"/>
+		    </div>
+		</div>
+		<div class="form-group" >
+		   	<div class="col-sm-2 control-label">住址</div>
+		   	<div class="col-sm-10" >
+		      <!-- <input type="text" v-model="goods.houseName" id="house_name" hidden="true" />
+		      <select v-model="goods.houseId" id="house_id" class="form-control" style="width:295px;display: inline;height: 35px">
+		      </select>
+		      <input type="text" class="form-control" v-model="goods.houseNumber"  style="width:70px;display: inline" id="house_number" placeholder="门牌号"/> -->
+		      <input type="text" class="form-control" v-model="goods.houseNumber" id="house_number" placeholder="住址，填写楼号-单元号-门牌号，例：B30-1-106"/>
+		    </div>
+		</div>
+		<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">状态 </div>
+		   	<div class="col-sm-10">
+		   		<select class="form-control" v-model="goods.status">
+		   			<option value='1'>已通知</option>
+					<option value='0'>未签收</option>
+					<option value='2'>已签收</option>
+					<option value='3'>延迟签收</option>
+					<option value='4'>拒收退货</option>
+					<option value='-1'>删除</option>
+		   		</select>
+		      <input type="text"  placeholder="状态 0-未签收 1-已通知未签收 2-签收 3-延迟签收 4-拒收退货"/>
+		    </div>
+		</div> -->
+		<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">存放货架</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="goods.shelves" placeholder="存放货架"/>
+		    </div>
+		</div> -->
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">物品</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="goods.goods" placeholder="物品"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">重量</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="goods.weight" placeholder="重量"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">收件备注 </div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="goods.receivenote" placeholder="收件备注"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">取件备注</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="goods.getnote" placeholder="取件备注"/>
+		    </div>
+		</div>
+		<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">图片</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="goods.img" placeholder="图片"/>
+		    </div>
+		</div> -->
+		<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">收件时间</div>
+		   	<div class="col-sm-10">
+		      <input hidden="true" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="createtime" v-model="goods.createtime" placeholder="收件时间"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">取件时间</div>
+		   	<div class="col-sm-10">
+		      <input  hidden="true"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="gettime" v-model="goods.gettime" placeholder="取件时间"/>
+		    </div>
+		</div>
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">取件人</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="goods.getname" placeholder="取件人"/>
+		    </div>
+		</div> -->
+		<!-- <div class="form-group">
+		   	<div class="col-sm-2 control-label">规格</div>
+		   	<div class="col-sm-10">
+		      <input type="text" class="form-control" v-model="goods.spec" placeholder="规格"/>
+		    </div>
+		</div> -->
+		<div class="form-group">
+		   	<div class="col-sm-2 control-label">是否破损</div>
+		   	<div class="col-sm-10">
+		      <input  hidden="true"  onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="gettime" v-model="goods.gettime" placeholder="取件时间"/>
+		      <input hidden="true" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" id="createtime" v-model="goods.createtime" placeholder="收件时间"/>
+		      <input type="text" hidden="true" v-model="goods.getname" placeholder="取件人"/>
+		      <input type="radio" value='0' v-model="goods.isBroken" name="isBroken" >未破损
+		      <input type="radio" value='1' v-model="goods.isBroken" name="isBroken" >已破损
+		    </div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-2 control-label"></div> 
+			<input type="button" class="btn btn-primary" @click="saveOrUpdate" value="确定"/>
+			&nbsp;&nbsp;<input type="button" class="btn btn-warning" @click="back" value="返回"/>
+		</div>
+	</form>
+</div>
+
+<script src="${rc.contextPath}/js/bus/goods/goods_update.js?_${date.systemTime}"></script>
+</body>
+</html>

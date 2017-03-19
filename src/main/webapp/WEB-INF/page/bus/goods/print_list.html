@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>快件交接单</title>
+#parse("sys/header.html")
+</head>
+<body>
+	<style type="text/css">
+* {
+	text-align: center;
+	margin: 0px auto;
+	padding: 0px 0px;
+	font-size:16px
+}
+
+table {
+	border-right: 1px solid #000;
+	border-bottom: 1px solid #000;
+}
+
+table thead tr td {
+	border-top: 1px solid #000;
+	border-left: 1px solid #000;
+}
+
+table tbody tr td {
+	border-top: 1px solid #000;
+	border-left: 1px solid #000;
+}
+
+table thead tr td {
+	border-bottom: 0px solid;
+}
+
+.td_right_border {
+	border-right: 1px solid #000;
+}
+</style>
+	<div style="width: 800px">
+		<p style="text-align: right;">
+			<span>快递公司：<span id="express" style="padding-right: 20px"></span></span>
+			<span>波次号：<span id="handover_no" style="padding-right: 20px"></span></span>
+			<span>共计：<span id="cur_row"></span>件</span>
+		</p>
+		<p style="float: left;">
+			交接人：<span id="cur_user">管理员</span>
+		</p>
+		<p style="float: right;">
+			打印日期：<span id="cur_time"></span>
+		</p>
+	</div>
+	<table width="800" cellspacing="0" cellpadding="0" style="clear: both;">
+		<thead>
+			<tr>
+				<td width="5%">序号</td>
+				<!-- <td>波次号</td> -->
+				<td width="15%">快递单号</td>
+				<td width="20%">收件人</td>
+				<td width="15%">收件人电话</td>
+				<td width="15%">住址</td>
+				<td width="15%">取件人签字</td>
+				<td width="15%">备注</td>
+			</tr>
+		</thead>
+		<tbody id="showData">
+		</tbody>
+	</table>
+	<div style="width: 800px">
+		<p style="float: left;">
+			页码：<span id="cur_num">1</span>
+		</p>
+		<p style="float: right;">
+			快递员确认：<span style="padding: 0px 80px"></span>
+		</p>
+	</div>
+</body>
+</html>
+<script
+	src="${rc.contextPath}/js/bus/goods/print_list.js?_${date.systemTime}"></script>

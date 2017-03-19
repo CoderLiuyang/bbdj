@@ -1,0 +1,14 @@
+var courier_tel = getQueryString("courier_tel");
+var courier_value = getQueryString("courier_value");
+var express_value = getQueryString("express_value");
+var weight = getQueryString("weight");
+var handover_no = getQueryString("handover_no");
+var user_name = getQueryString("user_name");
+var tel = getQueryString("tel");
+$('#courier_tel').html(courier_tel);
+$('#courier_value').html(unescape(courier_value));
+$('#express_value').html(unescape(express_value));
+$('#weight').html(weight);
+$('#handover_no').html(handover_no);
+$('#user_name').html(unescape(user_name));
+$('#tel').html(tel);

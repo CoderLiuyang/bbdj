@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>快递货物信息</title>
+#parse("sys/header.html")
+</head>
+<body>
+<style>
+	.form_input_height{
+		height:28px
+	}
+</style>
+<div id="rrapp">
+	<div class="grid-btn">
+		<div class="form-group col-sm-2" style="width:100%">
+			<select id="label_express" class="form-control" style="width:120px;display: inline" v-model="express" @keyup.enter="query" placeholder="快递公司">
+			</select>
+			&nbsp;
+			<select type="text" id="label_courier"  class="form-control form_input_height" style="width:120px;display: inline" v-model="courier" @keyup.enter="query">
+			</select>
+			&nbsp;
+			<select id="label_status" class="form-control form_input_height" style="width:120px;display: inline;" v-model="status"  @keyup.enter="query" >
+				<option value = '-1' selected="selected">全部状态</option>
+				<option value='1'>已通知</option>
+				<option value='0'>未通知</option>
+				<option value='2'>已签收</option>
+				<option value='3'>延迟签收</option>
+				<option value='4'>拒收退货</option>
+				<option value='5'>删除</option>
+			</select>
+			&nbsp;
+			<input id="label_handoverNo" type="text" class="form-control form_input_height" style="width:120px;display: inline" v-model="handoverNo" @keyup.enter="query" placeholder="波次号"> 
+			&nbsp;
+			<input id="label_goodsNo" type="text" class="form-control form_input_height" style="width:120px;display: inline" v-model="goodsNo" @keyup.enter="query" placeholder="快递单号"> 
+			&nbsp;
+			<input id="label_tel" type="text" class="form-control form_input_height" style="width:120px;display: inline" v-model="tel" @keyup.enter="query" placeholder="电话号码"> 
+			<!-- &nbsp;
+			<input id="label_house" type="text" class="form-control form_input_height" style="width:120px;display: inline" v-model="houseNumber" @keyup.enter="query" placeholder="住址信息"> --> 
+			&nbsp;
+			<input id="label_uname" type="text" class="form-control form_input_height" style="width:120px;display: inline" v-model="userName" @keyup.enter="query" placeholder="收件人">
+			&nbsp;
+			<button type="button" class="btn btn-default form_input_height" @click="query">查询</button>
+			<br/>
+			<input readonly="readonly" id="label_st" placeholder="收件时间" class="form-control form_input_height" style="margin-top: 10px;width:160px;display: inline"  @keyup.enter="query" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+			&nbsp;
+			<input readonly="readonly" id="label_et"  placeholder="收件时间"  class="form-control form_input_height" style="margin-top: 10px;width:160px;display: inline"  @keyup.enter="query" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"/>
+		</div>
+		<button type="button"  class="btn btn-default form_input_height" @click="add">新增</button>
+		<button type="button"  class="btn btn-default form_input_height" @click="update">修改</button>
+		<button type="button" class="btn btn-default form_input_height" @click="del">删除</button>
+		<button type="button" class="btn btn-default form_input_height" @click="notice">通知取件</button>
+		<button type="button" class="btn btn-default form_input_height" @click="print">打印</button>
+		<button type="button" class="btn btn-default form_input_height" @click="exportExcel">导出</button>
+	</div>
+    <table id="jqGrid"></table>
+    <div id="jqGridPager"></div>
+</div>
+
+<script src="${rc.contextPath}/js/bus/goods/goods.js?_${date.systemTime}"></script>
+</body>
+</html>

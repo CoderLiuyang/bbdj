@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bbdj8.weixin.dao.AccountDao">
+
+	<select id="queryObject" resultType="com.bbdj8.weixin.entity.AccountEntity">
+		select * from weixin_account where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.bbdj8.weixin.entity.AccountEntity">
+		select * from weixin_account 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from weixin_account 
+	</select>
+	 
+	<insert id="save" parameterType="com.bbdj8.weixin.entity.AccountEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into weixin_account
+		(
+			`accountname`, 
+			`accounttoken`, 
+			`accountnumber`, 
+			`accounttype`, 
+			`accountemail`, 
+			`accountdesc`, 
+			`accountaccesstoken`, 
+			`accountappid`, 
+			`accountappsecret`, 
+			`ADDTOEKNTIME`, 
+			`CREATETIME`, 
+			`USERNAME`, 
+			`WEIXIN_ACCOUNTID`, 
+			`apiticket`, 
+			`apiticketttime`, 
+			`jsapiticket`, 
+			`jsapitickettime`
+		)
+		values
+		(
+			#{accountname}, 
+			#{accounttoken}, 
+			#{accountnumber}, 
+			#{accounttype}, 
+			#{accountemail}, 
+			#{accountdesc}, 
+			#{accountaccesstoken}, 
+			#{accountappid}, 
+			#{accountappsecret}, 
+			#{addtoekntime}, 
+			#{createtime}, 
+			#{username}, 
+			#{weixinAccountid}, 
+			#{apiticket}, 
+			#{apiticketttime}, 
+			#{jsapiticket}, 
+			#{jsapitickettime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bbdj8.weixin.entity.AccountEntity">
+		update weixin_account 
+		<set>
+			<if test="accountname != null">`accountname` = #{accountname}, </if>
+			<if test="accounttoken != null">`accounttoken` = #{accounttoken}, </if>
+			<if test="accountnumber != null">`accountnumber` = #{accountnumber}, </if>
+			<if test="accounttype != null">`accounttype` = #{accounttype}, </if>
+			<if test="accountemail != null">`accountemail` = #{accountemail}, </if>
+			<if test="accountdesc != null">`accountdesc` = #{accountdesc}, </if>
+			<if test="accountaccesstoken != null">`accountaccesstoken` = #{accountaccesstoken}, </if>
+			<if test="accountappid != null">`accountappid` = #{accountappid}, </if>
+			<if test="accountappsecret != null">`accountappsecret` = #{accountappsecret}, </if>
+			<if test="addtoekntime != null">`ADDTOEKNTIME` = #{addtoekntime}, </if>
+			<if test="createtime != null">`CREATETIME` = #{createtime}, </if>
+			<if test="username != null">`USERNAME` = #{username}, </if>
+			<if test="weixinAccountid != null">`WEIXIN_ACCOUNTID` = #{weixinAccountid}, </if>
+			<if test="apiticket != null">`apiticket` = #{apiticket}, </if>
+			<if test="apiticketttime != null">`apiticketttime` = #{apiticketttime}, </if>
+			<if test="jsapiticket != null">`jsapiticket` = #{jsapiticket}, </if>
+			<if test="jsapitickettime != null">`jsapitickettime` = #{jsapitickettime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from weixin_account where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from weixin_account where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

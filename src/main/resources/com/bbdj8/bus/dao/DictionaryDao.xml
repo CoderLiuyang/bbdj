@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bbdj8.bus.dao.DictionaryDao">
+
+	<select id="queryObject" resultType="com.bbdj8.bus.entity.DictionaryEntity">
+		select * from bbdj_dictionary where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="com.bbdj8.bus.entity.DictionaryEntity">
+		select * from bbdj_dictionary 
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from bbdj_dictionary 
+	</select>
+	 
+	<insert id="save" parameterType="com.bbdj8.bus.entity.DictionaryEntity" useGeneratedKeys="true" keyProperty="id">
+		insert into bbdj_dictionary
+		(
+			`key`, 
+			`value`, 
+			`type_key`, 
+			`type_value`
+		)
+		values
+		(
+			#{key}, 
+			#{value}, 
+			#{typeKey}, 
+			#{typeValue}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bbdj8.bus.entity.DictionaryEntity">
+		update bbdj_dictionary 
+		<set>
+			<if test="key != null">`key` = #{key}, </if>
+			<if test="value != null">`value` = #{value}, </if>
+			<if test="typeKey != null">`type_key` = #{typeKey}, </if>
+			<if test="typeValue != null">`type_value` = #{typeValue}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from bbdj_dictionary where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from bbdj_dictionary where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	<select id="findByType" resultType="com.bbdj8.bus.entity.DictionaryEntity">
+		select * from bbdj_dictionary where 1=1
+		<if test="key != null and key != ''">
+			and type_key = #{key}
+		</if>
+		<if test="value != null and value != ''">
+			and type_value = #{value}
+		</if>
+	</select>
+	<select id="findType" resultType="com.bbdj8.bus.entity.DictionaryEntity">
+		SELECT
+			id,
+			type_key typeKey,
+			type_value typeValue
+		FROM
+			bbdj_dictionary
+		GROUP BY
+			type_key,
+			type_value
+	</select>
+</mapper>
